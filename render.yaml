@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: cybertrace-lite
+    runtime: docker
+    region: singapore
+    plan: starter
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /
+    disk:
+      name: cybertrace-data
+      mountPath: /app/data
+      sizeGB: 1
+    envVars:
+      - key: CYBERTRACE_SETUP_TOKEN
+        generateValue: true
+      - key: CYBERTRACE_COOKIE_SECURE
+        value: "true"
+      - key: CYBERTRACE_DB_PATH
+        value: /app/data/cybertrace.db
+      - key: CYBERTRACE_STORAGE
+        value: /app/data/evidence

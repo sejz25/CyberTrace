@@ -1,0 +1,20 @@
+services:
+  backend:
+    build: ./backend
+    environment:
+      CYBERTRACE_SETUP_TOKEN: ${CYBERTRACE_SETUP_TOKEN:?Set CYBERTRACE_SETUP_TOKEN in a project .env file}
+      CYBERTRACE_COOKIE_SECURE: "false"
+      CYBERTRACE_DB_PATH: /app/data/cybertrace.db
+      CYBERTRACE_STORAGE: /app/evidence
+    volumes:
+      - ./database:/app/data
+      - ./storage/evidence:/app/evidence
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
